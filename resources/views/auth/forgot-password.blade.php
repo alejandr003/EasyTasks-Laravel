@@ -1,6 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <nav class="navbar navbar-expand-lg navbar-custom px-3" style="min-height: 48px; padding-top: 4px; padding-bottom: 4px;">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
+                <img src="{{ asset('logo.png') }}" alt="Logo" class="navbar-logo" style="width:32px; height:32px;">
+                <span class="fw-bold" style="color:#22223B; font-size: 18px;">EasyTask</span>
+            </a>
+        </div>
+    </nav>
 <div class="container d-flex align-items-center justify-content-center min-vh-100" style="background: #f8f9fa;">
     <div class="card shadow p-4" style="max-width: 400px; width: 100%; border-radius: 18px;">
         <div class="text-center mb-4">
