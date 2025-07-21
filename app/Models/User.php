@@ -45,11 +45,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    /**
+     * Obtener las tareas del usuario.
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+    
+    /**
+     * Obtener las preferencias del usuario.
+     */
+    public function userPreference()
+    {
+        return $this->hasOne(UserPreference::class);
+    }
 
     /**
-     * Nombre de la tabla personalizada.
+     * Nombre de la tabla asociada al modelo.
      *
      * @var string
      */
-    protected $table = 'usuarios';
+    protected $table = 'users';
 }

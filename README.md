@@ -1,23 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><img src="public/logo.png" width="100" alt="EasyTasks Logo"></p>
+
+<h1 align="center">EasyTasks - Gestor de Actividades</h1>
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+Una aplicación web para gestionar tareas y actividades diarias de manera eficiente
 </p>
 
-## About Laravel
+## Acerca de EasyTasks
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+EasyTasks es una aplicación de gestión de tareas construida con Laravel que permite a los usuarios:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Crear, editar y eliminar tareas
+- Categorizar y priorizar actividades
+- Realizar seguimiento del progreso
+- Establecer fechas límite y recordatorios
+- Gestionar el tiempo de manera eficiente
+
+## Instalación
+
+1. Clona el repositorio
+   ```
+   git clone https://github.com/tu-usuario/gestor-de-actividades.git
+   cd gestor-de-actividades
+   ```
+
+2. Instala las dependencias
+   ```
+   composer install
+   npm install && npm run dev
+   ```
+
+3. Configura el entorno
+   ```
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. Configura la base de datos en el archivo `.env`
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=gestor_actividades
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+5. Ejecuta las migraciones
+   ```
+   php artisan migrate
+   ```
+
+6. Inicia el servidor
+   ```
+   php artisan serve
+   ```
+
+## Capturas de pantalla
+
+### Página de bienvenida
+![Página de bienvenida](public/screenshots/welcome.png)
+
+### Dashboard
+![Dashboard](public/screenshots/dashboard.png)
+
+### Lista de tareas
+![Lista de tareas](public/screenshots/tasks.png)
+
+## Tecnologías utilizadas
+
+- **Laravel**: Framework PHP para el backend
+- **Bootstrap 5**: Framework CSS para el frontend
+- **MySQL**: Base de datos relacional
+- **JavaScript/jQuery**: Para interacciones dinámicas
+
+## Estructura del proyecto
+
+- `/app`: Contiene los modelos, controladores y lógica de negocio
+- `/resources/views`: Plantillas Blade para la interfaz de usuario
+- `/routes`: Definición de rutas
+- `/database/migrations`: Migraciones para la estructura de la base de datos
+
+## Contribuir
+
+Las contribuciones son bienvenidas. Para contribuir:
+
+1. Haz un fork del proyecto
+2. Crea una rama para tu funcionalidad (`git checkout -b feature/amazing-feature`)
+3. Haz commit de tus cambios (`git commit -m 'Add some amazing feature'`)
+4. Push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
