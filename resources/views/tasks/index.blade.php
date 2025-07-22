@@ -30,7 +30,7 @@
     </div>
     
     <!-- Main Content -->
-    <div class="main-content" style="margin-left: 250px; width: calc(100% - 250px); background: #f8fafc;">
+    <div class="main-content" style="margin-left: 250px; width: calc(100% - 250px); background: #f8fafc; min-height: 100vh;">
         <!-- Top Navigation -->
         <div class="bg-white shadow-sm p-3 d-flex justify-content-between align-items-center">
             <h4 class="m-0 fw-bold">Todas las tareas</h4>
@@ -65,7 +65,7 @@
         </div>
         
         <!-- Tasks List -->
-        <div class="p-4">
+        <div class="p-4" style="height: 100vh; padding-bottom: 2rem !important;">
             @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
                 {{ session('success') }}
@@ -116,7 +116,7 @@
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow-sm tasks-container">
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
@@ -126,7 +126,7 @@
                                     <th scope="col">Estado</th>
                                     <th scope="col">Prioridad</th>
                                     <th scope="col">Fecha límite</th>
-                                    <th scope="col" class="text-end">Acciones</th>
+                                    <th scope="col" class="text-center" style="width: 300px;">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -150,28 +150,53 @@
                                         @endif
                                     </td>
                                     <td>{{ $task->due_date ? $task->due_date->format('d/m/Y') : 'N/A' }}</td>
-                                    <td class="text-end">
-                                        <div class="d-flex justify-content-end">
-                                            <form action="{{ route('tasks.update', $task->id) }}" method="POST" class="me-2">
-                                                @csrf
-                                                @method('PUT')
-                                                <input type="hidden" name="title" value="{{ $task->title }}">
-                                                <input type="hidden" name="description" value="{{ $task->description }}">
-                                                <input type="hidden" name="priority" value="{{ $task->priority }}">
-                                                <input type="hidden" name="due_date" value="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
-                                                <input type="hidden" name="status" value="{{ $task->status == 'completada' ? 'pendiente' : 'completada' }}">
-                                                <button type="submit" class="btn btn-sm {{ $task->status == 'completada' ? 'btn-outline-warning' : 'btn-outline-success' }}" title="{{ $task->status == 'completada' ? 'Marcar como pendiente' : 'Marcar como completada' }}">
-                                                    <i class="bi {{ $task->status == 'completada' ? 'bi-x-circle' : 'bi-check-circle' }}"></i>
+                                    <td class="text-center">
+                                        <div class="d-flex gap-2 justify-content-center align-items-center flex-wrap">
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-action btn-secondary dropdown-toggle" type="button" id="statusDropdown{{ $task->id }}" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+                                                    Estado
                                                 </button>
-                                            </form>
-                                            <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-outline-primary me-2" title="Editar">
-                                                <i class="bi bi-pencil"></i>
+                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="statusDropdown{{ $task->id }}">
+                                                    <li>
+                                                        <form action="{{ route('tasks.update', $task->id) }}" method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <input type="hidden" name="title" value="{{ $task->title }}">
+                                                            <input type="hidden" name="description" value="{{ $task->description }}">
+                                                            <input type="hidden" name="priority" value="{{ $task->priority }}">
+                                                            <input type="hidden" name="due_date" value="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
+                                                            <input type="hidden" name="status" value="completada">
+                                                            <button type="submit" class="dropdown-item {{ $task->status == 'completada' ? 'active' : '' }}">
+                                                                Completada
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                    <li>
+                                                        <form action="{{ route('tasks.update', $task->id) }}" method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <input type="hidden" name="title" value="{{ $task->title }}">
+                                                            <input type="hidden" name="description" value="{{ $task->description }}">
+                                                            <input type="hidden" name="priority" value="{{ $task->priority }}">
+                                                            <input type="hidden" name="due_date" value="{{ $task->due_date ? $task->due_date->format('Y-m-d') : '' }}">
+                                                            <input type="hidden" name="status" value="pendiente">
+                                                            <button type="submit" class="dropdown-item {{ $task->status == 'pendiente' ? 'active' : '' }}">
+                                                                Pendiente
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-primary btn-action">
+                                                Editar
                                             </a>
-                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?')">
+                                            
+                                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta tarea?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
-                                                    <i class="bi bi-trash"></i>
+                                                <button type="submit" class="btn btn-sm btn-danger btn-action">
+                                                    Eliminar
                                                 </button>
                                             </form>
                                         </div>
@@ -218,6 +243,59 @@
     }
     .pagination .page-link {
         color: #4F46E5;
+    }
+    .btn-action {
+        min-width: 80px;
+        padding: 6px 12px;
+        font-size: 0.875rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        text-align: center;
+    }
+    .btn-action:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .dropdown-item.active {
+        background-color: #e9ecef;
+        font-weight: bold;
+    }
+    .card {
+        min-height: 85vh;
+        height: 85vh;
+    }
+    .table-responsive {
+        min-height: 80vh;
+        height: 80vh;
+        overflow-y: auto;
+    }
+    .dropdown-menu {
+        z-index: 1050;
+    }
+    .table tbody tr {
+        height: 60px;
+    }
+    .table tbody td {
+        vertical-align: middle;
+        padding: 12px 8px;
+    }
+    .table {
+        height: 100%;
+    }
+    .table tbody {
+        height: 100%;
+    }
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    .card-body {
+        padding: 0 !important;
+        height: 100%;
+    }
+    .tasks-container {
+        height: calc(100vh - 200px);
+        min-height: 600px;
     }
 </style>
 @endpush
