@@ -35,3 +35,11 @@ storage/framework/sessions/.gitignore
 storage/framework/testing/.gitignore
 storage/framework/views/.gitignore
 storage/logs/.gitignore
+
+# TEMPORAL - Ignorar carpeta tests hasta próxima rama
+/tests/Feature/
+/tests/Unit/
+TESTING-GUIDE.md
+RESUMEN-FINAL.md
+run-tests.bat
+run-tests.sh
