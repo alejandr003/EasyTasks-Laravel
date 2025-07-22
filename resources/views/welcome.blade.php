@@ -109,8 +109,8 @@
                 <span class="fw-bold" style="color:#22223B;">EasyTask</span>
             </a>
             <div class="d-flex gap-2">
-                <a href="{{ route('register') }}" class="btn btn-primary-custom">Regístrate</a>
                 <a href="{{ route('login') }}" class="btn btn-outline-custom">Iniciar Sesión</a>
+                <a href="{{ route('register') }}" class="btn btn-primary-custom">Regístrate</a>
             </div>
         </div>
     </nav>
