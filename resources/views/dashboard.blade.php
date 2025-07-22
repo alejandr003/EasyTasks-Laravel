@@ -28,28 +28,57 @@
             </ul>
         </div>
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content" style="margin-left: 250px; width: calc(100% - 250px); background: #f8fafc;">
         <!-- Top Navigation -->
         <div class="bg-white shadow-sm p-3 d-flex justify-content-between align-items-center">
             <h4 class="m-0 fw-bold">Gestor de Tareas</h4>
             <div class="d-flex align-items-center">
-                <a href="{{ route('tasks.index') }}?status=pendiente" class="btn btn-sm me-2 position-relative" style="background: none; border: none;" title="Ver tareas pendientes">
-                    <i class="bi bi-bell fs-5"></i>
-                    @if($pendingTasks > 0)
+                <div class="dropdown me-2">
+                    <button class="btn btn-sm position-relative" style="background: none; border: none;"
+                        id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                        title="Notificaciones">
+                        <i class="bi bi-bell fs-5 notification-bell" style="color: #000;"></i>
+                        @if($pendingTasks > 0)
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                             {{ $pendingTasks > 9 ? '9+' : $pendingTasks }}
                         </span>
-                    @endif
-                </a>
+                        @endif
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown" style="min-width: 280px;">
+                        @if($pendingTasks > 0)
+                        <li>
+                            <div class="dropdown-item-text">
+                                <strong>Tienes {{ $pendingTasks }} {{ $pendingTasks == 1 ? 'tarea pendiente' : 'tareas pendientes' }}</strong>
+                            </div>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <a href="{{ route('tasks.index') }}?status=pendiente" class="dropdown-item text-primary">
+                                <i class="bi bi-eye me-2"></i>Consultar tareas pendientes
+                            </a>
+                        </li>
+                        @else
+                        <li>
+                            <div class="dropdown-item-text">
+                                <strong>No tienes tareas pendientes</strong>
+                            </div>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
                 <div class="dropdown">
                     <button class="btn dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background: none; border: none;">
                         <img src="{{ asset('https://ui-avatars.com/api/?name=' . auth()->user()->name . '&background=4F46E5&color=fff') }}" alt="User" class="rounded-circle" style="width: 36px; height: 36px;">
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="{{ route('settings') }}">Mi perfil</a></li>
-                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}" class="m-0">
                                 @csrf
@@ -60,24 +89,24 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Dashboard Content -->
         <div class="p-4">
             <!-- Mensajes de alerta -->
             @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             @endif
-            
+
             @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             @endif
-            
+
             <!-- Stat Cards -->
             <div class="row mb-4">
                 <div class="col-md-4 mb-3 mb-md-0">
@@ -105,43 +134,30 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Latest Tasks -->
+            <div class="text-end pb-3">
+                <a href="{{ route('tasks.create') }}" class="btn btn-primary" style="background-color: #4F46E5; border-color: #4F46E5;">Nueva tarea</a>
+            </div>
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
                     <h5 class="fw-bold mb-3">Últimas Tareas</h5>
+
                     <ul class="list-group list-group-flush">
                         @forelse($latestTasks as $task)
-                            <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
-                                <div>
-                                    <a href="{{ route('tasks.edit', $task->id) }}" class="text-decoration-none text-dark">{{ $task->title }}</a>
-                                    <span class="ms-2 badge {{ $task->status == 'completada' ? 'bg-success' : 'bg-warning' }}">
-                                        {{ $task->status == 'completada' ? 'Completada' : 'Pendiente' }}
-                                    </span>
-                                </div>
-                                <div class="d-flex">
-                                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-light me-1" title="Editar">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-light" 
-                                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta tarea?')" title="Eliminar">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
+                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="{{ route('tasks.edit', $task->id) }}" class="text-decoration-none text-dark">{{ $task->title }}</a>
+                                <span class="ms-2 badge {{ $task->status == 'completada' ? 'bg-success' : 'bg-warning' }}">
+                                    {{ $task->status == 'completada' ? 'Completada' : 'Pendiente' }}
+                                </span>
+                            </div>
+                        </li>
                         @empty
-                            <li class="list-group-item px-0">No hay tareas registradas</li>
+                        <li class="list-group-item px-0">No hay tareas registradas</li>
                         @endforelse
                     </ul>
                 </div>
-            </div>
-            
-            <div class="text-end">
-                <a href="{{ route('tasks.create') }}" class="btn btn-primary" style="background-color: #4F46E5; border-color: #4F46E5;">Nueva tarea</a>
             </div>
         </div>
     </div>
@@ -154,13 +170,37 @@
     body {
         background-color: #f8fafc;
     }
+
     .nav-link.active {
         background-color: rgba(79, 70, 229, 0.1);
         border-radius: 6px;
     }
+
     .nav-link:hover {
         background-color: rgba(79, 70, 229, 0.05);
         border-radius: 6px;
+    }
+
+    .dropdown-item-text {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(79, 70, 229, 0.05);
+    }
+
+    .text-primary:hover {
+        background-color: rgba(79, 70, 229, 0.1) !important;
+    }
+
+    .notification-bell {
+        color: #000 !important;
+        transition: color 0.2s ease;
+    }
+
+    .notification-bell:hover {
+        color: #4F46E5 !important;
     }
 </style>
 @endpush
