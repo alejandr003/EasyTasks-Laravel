@@ -67,6 +67,8 @@ EasyTasks es una aplicación de gestión de tareas construida con Laravel que pe
 ### Lista de tareas
 ![Lista de tareas](public/screenshots/tasks.png)
 
+![página](https://easy-tasks.up.railway.app/)
+
 ## Tecnologías utilizadas
 
 - **Laravel**: Framework PHP para el backend
