@@ -2,6 +2,30 @@
 
 @section('content')
 <div class="d-flex">
+    @if(isset($aviso) && $aviso)
+    <!-- Modal de aviso dinámico -->
+    <div class="modal fade" id="avisoModal" tabindex="-1" aria-labelledby="avisoModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="avisoModalLabel">{{ $aviso->titulo ?? 'Aviso' }}</h5>
+          </div>
+          <div class="modal-body">
+            {{ $aviso->mensaje }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        var avisoModal = new bootstrap.Modal(document.getElementById('avisoModal'));
+        avisoModal.show();
+      });
+    </script>
+    @endif
     <!-- Sidebar -->
     <div class="sidebar bg-white shadow-sm" style="width: 250px; min-height: 100vh; position: fixed; left: 0;">
         <div class="p-3 border-bottom d-flex align-items-center">
