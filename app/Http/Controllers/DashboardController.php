@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Aviso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,7 +34,9 @@ class DashboardController extends Controller
                             ->orderBy('created_at', 'desc')
                             ->take(5)
                             ->get();
+        // Aviso activo
+        $aviso = Aviso::where('activo', true)->latest()->first();
         
-        return view('dashboard', compact('totalTasks', 'completedTasks', 'pendingTasks', 'latestTasks'));
+        return view('dashboard', compact('totalTasks', 'completedTasks', 'pendingTasks', 'latestTasks', 'aviso'));
     }
 }
